@@ -3,48 +3,61 @@
 namespace App\Repository;
 
 use App\Entity\Servers;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-/**
- * @method Servers|null find($id, $lockMode = null, $lockVersion = null)
- * @method Servers|null findOneBy(array $criteria, array $orderBy = null)
- * @method Servers[]    findAll()
- * @method Servers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class ServersRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry
+    ) {
         parent::__construct($registry, Servers::class);
     }
 
-    // /**
-    //  * @return Servers[] Returns an array of Servers objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function getServersList(
+        ?int $locationFilter,
+        ?int $hddFilter,
+        array $ramFilter,
+        array $storageFilter
+    ) {
+        $qb = $this->createQueryBuilder('s');
+        
+         $qb->select('s.id',
+              's.name as server_name', 
+              'r.name as ram_name',
+              'h.name as hdd_name', 
+              'l.name as location_name',
+              'case
+                when s.currency = \'EUR\'  then CONCAT(\'€\',s.price)
+                when s.currency = \'USD\' then CONCAT(\'$\',s.price)
+                else s.price
+                end as price
+              ')
+             ->leftJoin('s.ram', 'r')
+             ->leftJoin('s.hardDiskDrive', 'h')
+             ->leftJoin('s.location', 'l');
 
-    /*
-    public function findOneBySomeField($value): ?Servers
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            if (!empty($locationFilter)) {
+                $qb->andWhere($qb->expr()->eq('l.id', ':locationFilter'))
+                ->setParameter('locationFilter', $locationFilter);
+            }
+            
+            if (!empty($hddFilter)) {
+                $qb->andWhere($qb->expr()->eq('h.type', ':hddFilter'))
+                ->setParameter('hddFilter', $hddFilter);
+            }
+
+            if (!empty($ramFilter)) {
+                $qb->andWhere($qb->expr()->in('r.memory', ':ramFilter'))
+                ->setParameter('ramFilter', $ramFilter);
+            }
+
+            if (!empty($storageFilter)) {
+                $qb->andWhere($qb->expr()->between('h.storage', ':minStorage', ':maxStorage'))
+                ->setParameter('minStorage', $storageFilter[0])
+                ->setParameter('maxStorage', $storageFilter[1]);
+            }
+
+        return $qb->getQuery()->getResult();
     }
-    */
 }

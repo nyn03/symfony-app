@@ -6,7 +6,7 @@ use App\Repository\HardDiskDriveRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=HardDiskDriveRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\HardDiskDriveRepository")
  */
 class HardDiskDrive
 {
@@ -31,45 +31,4 @@ class HardDiskDrive
      * @ORM\Column(type="string", columnDefinition="ENUM('SAS', 'SATA', 'SSD')")
      */
     private $type;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getStorage()
-    {
-        return $this->storage;
-    }
-
-    public function setStorage($storage)
-    {
-        $this->storage = $storage;
-
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 }
