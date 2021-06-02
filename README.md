@@ -28,4 +28,4 @@ App shows listing of servers, also filters can be applied to minimize the result
     yarn install
     yarn encore dev --watch
   ```
-- Run the application on local machines http://localhost
+- Run the application on local machine's http://localhost
