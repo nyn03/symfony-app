@@ -2,7 +2,7 @@
 
 namespace App\Validators;
 
-use App\Exeptions\ApiInvalidParameterException;
+use App\Exceptions\ApiInvalidParameterException;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiRequestParameterValidator
@@ -11,9 +11,11 @@ class ApiRequestParameterValidator
         'location',
         'hdd',
         'ram',
-        'storage'
+        'storage',
+        'page'
     ];
 
+    /** @todo : use constraints */
     public function validate(array $filters)
     {
         if (!empty(array_diff(array_keys($filters),self::VALID_QUERY_PARAMS))) {

@@ -79,7 +79,6 @@
               <md-option value="72000">72TB</md-option>
             </md-select>
           </md-field>
-
       </div>
       <div class="md-layout-item md-size-20">
           <md-field>
@@ -130,11 +129,27 @@
         </md-table-row>
       </md-table>
     </div>
-  </div>
+
+  <div class="md-alignment-top-center">
+    <paginate
+    :page-count="lastPageNumber"
+    :page-range="3"
+    :margin-pages="2"
+    :click-handler="clickCallback"
+    :prev-text="'Prev'"
+    :next-text="'Next'"
+    :container-class="'pagination'"
+    :page-class="'page-item'">
+  </paginate>
+</div>
+    </div>
 </template>
 
 <script>
-import axios from "axios";
+import Vue from "vue"
+import axios from "axios"
+import Paginate from "vuejs-paginate2"
+Vue.component('paginate', Paginate)
 
 export default {
   data() {
@@ -144,11 +159,12 @@ export default {
       hdd: "",
       ram: [],
       minRange:"",
-      maxRange:""
+      maxRange:"",
+      lastPageNumber:1
     };
   },
   methods: {
-    getServersList() {
+    getServersList(page = 1) {
       let url =
         "https://servers-list-demo.herokuapp.com/api?location=" +
         this.location +
@@ -160,8 +176,16 @@ export default {
         if(this.minRange!="" && this.maxRange!="") {
           url = url + String(this.minRange) + "," + String(this.maxRange);
         }
-
-      axios.get(url).then(response => (this.serversList = response.data.data));
+        url += "&page=" + page;
+        
+        axios.get(url)
+        .then(response => (
+          this.serversList = response.data.data.result,
+          this.lastPageNumber = response.data.data.lastPageNumber
+        ));
+    },
+    clickCallback (pageNum) {
+      this.getServersList(pageNum);
     }
   },
   mounted() {
@@ -170,4 +194,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="css">
+  /* .pagination {
+    display: inline-block;
+  }
+  
+  .page-item {
+
+  } */
+</style>

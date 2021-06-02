@@ -4,7 +4,6 @@ import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 import App from './components/App.vue'
 
-
 Vue.use(VueMaterial)
 
 new Vue({

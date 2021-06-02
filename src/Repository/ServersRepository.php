@@ -3,22 +3,28 @@
 namespace App\Repository;
 
 use App\Entity\Servers;
+use App\Library\Pagination;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class ServersRepository extends ServiceEntityRepository
 {
+    private Pagination $pagination;
+
     public function __construct(
-        ManagerRegistry $registry
+        ManagerRegistry $registry,
+        Pagination $pagination
     ) {
         parent::__construct($registry, Servers::class);
+        $this->pagination = $pagination;
     }
 
     public function getServersList(
          $locationFilter,
          $hddFilter,
          $ramFilter,
-         $storageFilter
+         $storageFilter,
+         $page
     ) {
         $qb = $this->createQueryBuilder('s');
         
@@ -52,12 +58,19 @@ class ServersRepository extends ServiceEntityRepository
                 ->setParameter('ramFilter', $ramFilter);
             }
 
-            if (!empty($storageFilter)) {
+            if (!empty($storageFilter[0]) && !empty($storageFilter[1])) {
                 $qb->andWhere($qb->expr()->between('h.storage', ':minStorage', ':maxStorage'))
                 ->setParameter('minStorage', $storageFilter[0])
                 ->setParameter('maxStorage', $storageFilter[1]);
             }
 
-        return $qb->getQuery()->getResult();
+        $this->pagination->setQuery($qb);
+        $result = $this->pagination->paginate($page);
+        $lastPageNumber =  $this->pagination->getLastPageNumber();
+
+        return [
+            'result' => $result,
+            'lastPageNumber' => $lastPageNumber
+        ];
     }
 }

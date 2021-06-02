@@ -4818,6 +4818,11 @@ vue@^2.5, vue@^2.6.10:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==
 
+vuejs-paginate2@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/vuejs-paginate2/-/vuejs-paginate2-2.2.2.tgz#79bb25f7221ea5183aaa84a4848f6db25d8651d7"
+  integrity sha512-PiSuUl5gDqrw5mSmc0O+MP+NUL/2ifWlxmHvNBzM/YWy/jRr6ysRidQleeDgH2zt2wo/sEPT+srOL5njm6+Yjg==
+
 watchpack@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.2.0.tgz#47d78f5415fe550ecd740f99fe2882323a58b1ce"

@@ -62,13 +62,18 @@ class ApiController extends AbstractController
             $storageFilter = explode(',', $filters['storage']);
         }
 
+        if (!empty($filters['page'])) {
+            $storageFilter = explode(',', $filters['storage']);
+        }
+
         return $this->json([
             'status' => Response::HTTP_OK,
             'data' => $this->apiService->getServersList(
                 $locationFilter,
                 $hddFilter,
                 $ramFilter,
-                $storageFilter
+                $storageFilter,
+                $filters['page'] ?? null
             )
         ]);
     }

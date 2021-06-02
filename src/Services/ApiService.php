@@ -20,13 +20,15 @@ class ApiService {
          $locationFilter,
          $hddFilter,
          $ramFilter,
-         $storageFilter 
+         $storageFilter,
+         $page
     ) {
         $result = $this->em->getRepository(Servers::class)->getServersList(
             $locationFilter,
             $hddFilter,
             $ramFilter,
-            $storageFilter
+            $storageFilter,
+            $page
         );
 
         return $result;

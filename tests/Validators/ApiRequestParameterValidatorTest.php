@@ -3,7 +3,7 @@
 namespace App\Test\Validators;
 
 use PHPUnit\Framework\TestCase;
-use App\Exeptions\ApiInvalidParameterException;
+use App\Exceptions\ApiInvalidParameterException;
 use App\Validators\ApiRequestParameterValidator;
 
 class ApiRequestParameterValidatorTest extends TestCase
