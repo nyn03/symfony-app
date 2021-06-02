@@ -17,10 +17,10 @@ class ApiService {
     }
 
     public function getServersList(
-        ?int $locationFilter,
-        ?int $hddFilter,
-        array $ramFilter,
-        array $storageFilter 
+         $locationFilter,
+         $hddFilter,
+         $ramFilter,
+         $storageFilter 
     ) {
         $result = $this->em->getRepository(Servers::class)->getServersList(
             $locationFilter,

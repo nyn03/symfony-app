@@ -15,10 +15,10 @@ class ServersRepository extends ServiceEntityRepository
     }
 
     public function getServersList(
-        ?int $locationFilter,
-        ?int $hddFilter,
-        array $ramFilter,
-        array $storageFilter
+         $locationFilter,
+         $hddFilter,
+         $ramFilter,
+         $storageFilter
     ) {
         $qb = $this->createQueryBuilder('s');
         
