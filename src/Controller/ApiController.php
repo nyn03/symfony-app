@@ -68,7 +68,7 @@ class ApiController extends AbstractController
 
         return $this->json([
             'status' => Response::HTTP_OK,
-            'data' => $this->apiService->getServersList(
+            'payload' => $this->apiService->getServersList(
                 $locationFilter,
                 $hddFilter,
                 $ramFilter,

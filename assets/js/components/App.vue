@@ -180,8 +180,8 @@ export default {
         
         axios.get(url)
         .then(response => (
-          this.serversList = response.data.data.result,
-          this.lastPageNumber = response.data.data.lastPageNumber
+          this.serversList = response.data.payload.result,
+          this.lastPageNumber = response.data.payload.lastPageNumber
         ));
     },
     clickCallback (pageNum) {
