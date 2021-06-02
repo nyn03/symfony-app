@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exeptions;
+namespace App\Exceptions;
 
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
