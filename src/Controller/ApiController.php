@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Exeptions\ApiInvalidParameterException;
+use App\Exceptions\ApiInvalidParameterException;
 use App\Services\ApiService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

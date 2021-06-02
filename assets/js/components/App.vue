@@ -4,7 +4,7 @@
       <h1 class="md-title">Server List</h1>
     </div>
 
-    <md-toolbar class="md-large">
+    
       <div class="md-layout md-gutter md-alignment-top-center">
         <div class="md-layout-item md-size-60">
           <md-checkbox v-model="ram" value="2">2GB</md-checkbox>
@@ -27,6 +27,7 @@
               id="hdd"
               placeholder="Hard disk type"
             >
+              <md-option value="">Select hard disk type</md-option>
               <md-option value="1">SAS</md-option>
               <md-option value="2">SATA</md-option>
               <md-option value="3">SSD</md-option>
@@ -42,6 +43,7 @@
               id="location"
               placeholder="Location"
             >
+              <md-option value="">Select location</md-option>
               <md-option value="1">AmsterdamAMS-01</md-option>
               <md-option value="2">Washington D.C.WDC-01</md-option>
               <md-option value="3">San FranciscoSFO-12</md-option>
@@ -53,13 +55,64 @@
           </md-field>
         </div>
 
+<h3>Select Range</h3>
+      <div class="md-layout-item md-size-20">
+          <md-field>
+            <md-select
+              v-model="minRange"
+              name="min_range"
+              id="min_range"
+              placeholder="Min Storage"
+            >
+            <md-option value="">Select min storage</md-option>
+              <md-option value="0">0</md-option>
+              <md-option value="250">250GB</md-option>
+              <md-option value="500">500GB</md-option>
+              <md-option value="1000">1TB</md-option>
+              <md-option value="2000">2TB</md-option>
+              <md-option value="3000">3TB</md-option>
+              <md-option value="4000">4TB</md-option>
+              <md-option value="8000">8TB</md-option>
+              <md-option value="12000">12TB</md-option>
+              <md-option value="24000">24TB</md-option>
+              <md-option value="48000">48TB</md-option>
+              <md-option value="72000">72TB</md-option>
+            </md-select>
+          </md-field>
+
+      </div>
+      <div class="md-layout-item md-size-20">
+          <md-field>
+            <md-select
+              v-model="maxRange"
+              name="max_range"
+              id="max_range"
+              placeholder="Max Storage"
+            >
+            <md-option value="">Select max storage</md-option>
+              <md-option value="250">250GB</md-option>
+              <md-option value="500">500GB</md-option>
+              <md-option value="1000">1TB</md-option>
+              <md-option value="2000">2TB</md-option>
+              <md-option value="3000">3TB</md-option>
+              <md-option value="4000">4TB</md-option>
+              <md-option value="8000">8TB</md-option>
+              <md-option value="12000">12TB</md-option>
+              <md-option value="24000">24TB</md-option>
+              <md-option value="48000">48TB</md-option>
+              <md-option value="72000">72TB</md-option>
+            </md-select>
+          </md-field>
+        </div>
+        
+
         <div class="md-layout-item md-size-20">
           <md-button class="md-raised md-primary" v-on:click="getServersList()"
             >Filter</md-button
           >
         </div>
       </div>
-    </md-toolbar>
+    
     <md-divider></md-divider>
 
     <div>
@@ -89,20 +142,25 @@ export default {
       serversList: [],
       location: "",
       hdd: "",
-      ram: []
+      ram: [],
+      minRange:"",
+      maxRange:""
     };
   },
   methods: {
     getServersList() {
       let url =
-        "http://localhost:8080/api?location=" +
+        "https://servers-list-demo.herokuapp.com/api?location=" +
         this.location +
         "&hdd=" +
         this.hdd +
         "&ram=" +
-        this.ram.join() +
-        "&storage=" +
-        "250,500";
+        this.ram.join()+"&storage=";
+
+        if(this.minRange!="" && this.maxRange!="") {
+          url = url + String(this.minRange) + "," + String(this.maxRange);
+        }
+
       axios.get(url).then(response => (this.serversList = response.data.data));
     }
   },
