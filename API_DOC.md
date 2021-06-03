@@ -2,7 +2,7 @@
 ----
 * **URL**
 
-  https://servers-list-demo.herokuapp.com/api?location=1&hdd=2&ram=2,4,8,12&storage=250,500
+  https://servers-list-demo.herokuapp.com/api?location=1&hdd=2&ram=2,4,8,12&storage=250,500&page=1
 
 * **Method:**
   
