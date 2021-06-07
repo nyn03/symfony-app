@@ -166,7 +166,7 @@ export default {
   methods: {
     getServersList(page = 1) {
       let url =
-        "https://servers-list-demo.herokuapp.com/api?location=" +
+        "http://localhost:8080/api?location=" +
         this.location +
         "&hdd=" +
         this.hdd +

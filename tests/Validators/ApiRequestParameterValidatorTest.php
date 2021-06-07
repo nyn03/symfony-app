@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Test\Validators;
+namespace App\Tests\Validators;
 
 use PHPUnit\Framework\TestCase;
 use App\Exceptions\ApiInvalidParameterException;
@@ -19,8 +19,19 @@ class ApiRequestParameterValidatorTest extends TestCase
     /** @test */
     public function throwsExceptionOnInvalidaParameters()
     {
+        $parameters = ['page' => 0];
         $validator = new ApiRequestParameterValidator();
         $this->expectException(ApiInvalidParameterException::class);
-        $validator->validate(['invalid_parameter']);
+        $validator->validate($parameters);
+    }
+
+    /** @test */
+    public function NoExceptionsThrownForValidParameters()
+    {
+        $parameters = ['location' => 1, 'page' => 1];
+        $validator = new ApiRequestParameterValidator();
+        $this->assertNull(
+            $validator->validate($parameters)
+        );
     }
 }
