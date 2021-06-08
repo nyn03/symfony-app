@@ -28,7 +28,7 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api", name="api")
+     * @Route("/api/v1/servers-list", name="api")
      */
     public function index(Request $request): Response
     {
