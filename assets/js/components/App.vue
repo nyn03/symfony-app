@@ -166,7 +166,7 @@ export default {
   methods: {
     getServersList(page = 1) {
       let url =
-        "https://servers-list-demo.herokuapp.com/api/v1/servers-list?location=" +
+        apiUrl + "/api/v1/servers-list?location=" +
         this.location +
         "&hdd=" +
         this.hdd +
@@ -193,13 +193,3 @@ export default {
   }
 };
 </script>
-
-<style lang="css">
-  /* .pagination {
-    display: inline-block;
-  }
-  
-  .page-item {
-
-  } */
-</style>

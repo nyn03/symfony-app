@@ -19,13 +19,8 @@ class ServersRepository extends ServiceEntityRepository
         $this->pagination = $pagination;
     }
 
-    public function getServersList(
-         $locationFilter,
-         $hddFilter,
-         $ramFilter,
-         $storageFilter,
-         $page
-    ) {
+    public function getServersList(array $filters): array
+    {
         $qb = $this->createQueryBuilder('s');
         
          $qb->select('s.id',
@@ -43,29 +38,31 @@ class ServersRepository extends ServiceEntityRepository
              ->leftJoin('s.hardDiskDrive', 'h')
              ->leftJoin('s.location', 'l');
 
-            if (!empty($locationFilter)) {
+            if (!empty($filters['location'])) {
                 $qb->andWhere($qb->expr()->eq('l.id', ':locationFilter'))
-                ->setParameter('locationFilter', $locationFilter);
+                ->setParameter('locationFilter', $filters['location']);
             }
             
-            if (!empty($hddFilter)) {
+            if (!empty($filters['hdd'])) {
                 $qb->andWhere($qb->expr()->eq('h.type', ':hddFilter'))
-                ->setParameter('hddFilter', $hddFilter);
+                ->setParameter('hddFilter', $filters['hdd']);
             }
 
-            if (!empty($ramFilter)) {
+            if (!empty($filters['ram'])) {
                 $qb->andWhere($qb->expr()->in('r.memory', ':ramFilter'))
-                ->setParameter('ramFilter', $ramFilter);
+                ->setParameter('ramFilter', explode(',', $filters['ram']));
             }
 
-            if (!empty($storageFilter[0]) && !empty($storageFilter[1])) {
+            if (!empty($filters['storage'])) {
+                $storageRange = explode(',', $filters['storage']);
+
                 $qb->andWhere($qb->expr()->between('h.storage', ':minStorage', ':maxStorage'))
-                ->setParameter('minStorage', $storageFilter[0])
-                ->setParameter('maxStorage', $storageFilter[1]);
+                ->setParameter('minStorage', $storageRange[0])
+                ->setParameter('maxStorage', $storageRange[1]);
             }
 
         $this->pagination->setQuery($qb);
-        $result = $this->pagination->paginate($page);
+        $result = $this->pagination->paginate($filters['page']);
         $lastPageNumber =  $this->pagination->getLastPageNumber();
 
         return [

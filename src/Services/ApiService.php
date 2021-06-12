@@ -16,19 +16,10 @@ class ApiService {
         $this->em = $em;
     }
 
-    public function getServersList(
-         $locationFilter,
-         $hddFilter,
-         $ramFilter,
-         $storageFilter,
-         $page
-    ) {
+    public function getServersList(array $filters) 
+    {
         $result = $this->em->getRepository(Servers::class)->getServersList(
-            $locationFilter,
-            $hddFilter,
-            $ramFilter,
-            $storageFilter,
-            $page
+            $filters
         );
 
         return $result;

@@ -33,6 +33,7 @@ class ApiController extends AbstractController
     public function index(Request $request): Response
     {
         $filters = $request->query->all();
+        
         try {
             $this->apiRequestParameterValidator->validate($filters);
         } catch(ApiInvalidParameterException $e) {
@@ -42,26 +43,9 @@ class ApiController extends AbstractController
             );
         }
 
-        $ramFilter = [];
-        $storageFilter = [];
-
-        if (!empty($filters['ram'])) {
-            $ramFilter = explode(',', $filters['ram']);
-        }
-
-        if (!empty($filters['storage'])) {
-            $storageFilter = explode(',', $filters['storage']);
-        }
-
         return $this->json([
             'status' => Response::HTTP_OK,
-            'payload' => $this->apiService->getServersList(
-                $filters['location'] ?? '',
-                $filters['hdd'] ?? '',
-                $ramFilter,
-                $storageFilter,
-                $filters['page'] ?? 1
-            )
+            'payload' => $this->apiService->getServersList($filters)
         ]);
     }
 }
