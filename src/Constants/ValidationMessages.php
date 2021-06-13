@@ -11,5 +11,7 @@ class ValidationMessages
     public const INVLID_RANGE_VALUES_FOR_STORAGE = 'Invalid range values for storage';
     public const PAGE_NUMBER_SHOULD_BE_GREATER_THAN_ZERO = 'Page number should be greater than 0';
     public const PAGE_SHOULD_NOT_BE_BLANK = 'Page should not be blank';
-    public const PAGE_SHOULD_BE_NUMERIC = 'Page should be numeric';
+    public const PAGE_SHOULD_BE_AN_INTEGER = 'Page should be an integer';
+    public const LOCATION_SHOULD_AN_INTEGER = 'Location should be an integer';
+    public const HDD_SHOULD_BE_AN_INTEGER = 'HDD type should be an integer';
 }

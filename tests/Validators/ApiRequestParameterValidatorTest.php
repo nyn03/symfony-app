@@ -19,7 +19,7 @@ class ApiRequestParameterValidatorTest extends TestCase
     }
 
     /** @test */
-    public function throwsExceptionOnMissingParameters()
+    public function ItThrowsExceptionOnMissingParameters()
     {
         $parameters = [
             'page' => 0
@@ -30,7 +30,7 @@ class ApiRequestParameterValidatorTest extends TestCase
     }
 
     /** @test */
-    public function throwsExceptionOnInvalidPageParameter()
+    public function ItThrowsExceptionWhenZeroPassedAsPageNumber()
     {
         $parameters = [
             'location' => 1,
@@ -108,4 +108,52 @@ class ApiRequestParameterValidatorTest extends TestCase
         $this->expectErrorMessage(ValidationMessages::INVLID_RANGE_VALUES_FOR_STORAGE);
         $validator->validate($parameters);
     }
+
+    /** @test */
+    public function ItThrowsExceptionWithMessageForInvalidLocation()
+    {
+        $parameters = [
+            'location' => 'abc',
+            'hdd' => '',
+            'ram' => '',
+            'storage' => '',
+            'page' => 1
+        ];
+        $validator = new ApiRequestParameterValidator();
+        $this->expectException(ApiInvalidParameterException::class);
+        $this->expectErrorMessage(ValidationMessages::LOCATION_SHOULD_AN_INTEGER);
+        $validator->validate($parameters);
+    }
+
+    /** @test */
+    public function ItThrowsExceptionWithMessageForInvalidHDDType()
+    {
+        $parameters = [
+            'location' => '',
+            'hdd' => 'abc',
+            'ram' => '',
+            'storage' => '',
+            'page' => 1
+        ];
+        $validator = new ApiRequestParameterValidator();
+        $this->expectException(ApiInvalidParameterException::class);
+        $this->expectErrorMessage(ValidationMessages::HDD_SHOULD_BE_AN_INTEGER);
+        $validator->validate($parameters);
+    }
+
+     /** @test */
+     public function ItThrowsExceptionWithMessageForNonIntegerPage()
+     {
+         $parameters = [
+             'location' => '',
+             'hdd' => 'abc',
+             'ram' => '',
+             'storage' => '',
+             'page' => 1.1
+         ];
+         $validator = new ApiRequestParameterValidator();
+         $this->expectException(ApiInvalidParameterException::class);
+         $this->expectErrorMessage(ValidationMessages::PAGE_SHOULD_BE_AN_INTEGER);
+         $validator->validate($parameters);
+     }
 }

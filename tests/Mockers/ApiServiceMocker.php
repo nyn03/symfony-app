@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Tests\Mockers;
 
@@ -7,17 +8,15 @@ use PHPUnit\Framework\TestCase;
 
 class ApiServiceMocker extends TestCase
 {
-    public array $list;
-    public array $filters;
-
+    public array $list = [];
+    
     public function getApiServiceMock()
     {
         $mock = $this->createMock(ApiService::class);
 
-        // $mock->expects(self::any())
-        // ->method('getServersList')
-        // ->with($this->filters)
-        // ->willReturn($this->list);
+        $mock->expects(self::any())
+        ->method('getServersList')
+        ->willReturn($this->list);
 
         return $mock;
     }
