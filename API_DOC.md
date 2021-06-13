@@ -10,15 +10,13 @@
  
 *  **URL Params**
 
-   **Optional:**
-   <_All parameters are alphanumeric_>
+
+   **Mandatory:**
+   `page=1`
    `location=1`
    `hdd=2`
    `ram=2,4,8,12`
    `storage=250,500`
-
-   **Mandatory:**
-   `page=1`
 
 * **Success Response:**
   
