@@ -3,21 +3,20 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Entity\Servers;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Interfaces\Repository\ServerRepositoryInterface;
 
 class ApiService {
 
-    public EntityManagerInterface $em;
+    public ServerRepositoryInterface $serversRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(ServerRepositoryInterface $serversRepository)
     {
-        $this->em = $em;
+        $this->serversRepository = $serversRepository;
     }
 
     public function getServersList(array $filters) 
     {
-        $result = $this->em->getRepository(Servers::class)->getServersList(
+        $result = $this->serversRepository->getServersList(
             $filters
         );
 

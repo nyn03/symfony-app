@@ -1,27 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Servers;
 use App\Library\Pagination;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Interfaces\Repository\ServerRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
-class ServersRepository extends ServiceEntityRepository
+class ServersRepository implements ServerRepositoryInterface
 {
+    private EntityRepository $serversRepository;
+
     private Pagination $pagination;
 
     public function __construct(
-        ManagerRegistry $registry,
+        EntityManagerInterface $em,
         Pagination $pagination
     ) {
-        parent::__construct($registry, Servers::class);
+        $this->serversRepository = $em->getRepository(Servers::class);
         $this->pagination = $pagination;
     }
 
     public function getServersList(array $filters): array
     {
-        $qb = $this->createQueryBuilder('s');
+        $qb = $this->serversRepository->createQueryBuilder('s');
         
          $qb->select('s.id',
               's.name as server_name', 
@@ -63,11 +68,11 @@ class ServersRepository extends ServiceEntityRepository
 
         $this->pagination->setQuery($qb);
         $result = $this->pagination->paginate($filters['page']);
-        $lastPageNumber =  $this->pagination->getLastPageNumber();
-
+        
         return [
             'result' => $result,
-            'lastPageNumber' => $lastPageNumber
+            'totalResults' => $this->pagination->getTotal(),
+            'lastPageNumber' => $this->pagination->getLastPageNumber()
         ];
     }
 }
